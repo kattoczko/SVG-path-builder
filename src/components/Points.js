@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CSSModules from "react-css-modules";
 import classNames from "classnames";
 
-import styles from "../styles/Points.module.scss";
+import "../styles/Points.module.scss";
 
 function Points({ points, activePointIndex, onPointClick, onAnchorClick }) {
   const pts = points.map((point, i) => {
@@ -48,4 +47,4 @@ Points.propTypes = {
   onAnchorClick: PropTypes.func.isRequired
 };
 
-export default CSSModules(Points, styles, { allowMultiple: true });
+export default Points;

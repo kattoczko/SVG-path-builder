@@ -1,12 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CSSModules from "react-css-modules";
 
-import styles from "../styles/SVG.module.scss";
+import "../styles/SVG.module.scss";
 
 import Grid from "./Grid.js";
 import Points from "./Points";
-// import Path from "./Path";
 
 function SVG({
   width,
@@ -62,4 +60,4 @@ SVG.propTypes = {
   svgRef: PropTypes.object.isRequired
 };
 
-export default CSSModules(SVG, styles);
+export default SVG;

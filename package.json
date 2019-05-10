@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.3.4",
+    "autoprefixer": "^9.5.1",
     "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "babel-preset-react-app": "7.0.2",
@@ -60,6 +61,19 @@
   "babel": {
     "presets": [
       "babel-preset-react-app"
+    ],
+    "plugins": [
+      [
+        "react-css-modules",
+        {
+          "filetypes": {
+            ".scss": {
+              "syntax": "postcss-scss"
+            }
+          },
+          "generateScopedName": "[local]---[hash:base64:5]]"
+        }
+      ]
     ]
   },
   "eslintConfig": {

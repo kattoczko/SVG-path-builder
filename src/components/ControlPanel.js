@@ -1,8 +1,7 @@
 import React from "react";
-import CSSModules from "react-css-modules";
 import PropTypes from "prop-types";
 
-import styles from "../styles/ControlPanel.module.scss";
+import "../styles/ControlPanel.module.scss";
 
 import TextInput from "./common/TextInput";
 import Checkbox from "./common/Checkbox";
@@ -144,4 +143,4 @@ ControlPanel.propTypes = {
   activePointIndex: PropTypes.number.isRequired
 };
 
-export default CSSModules(ControlPanel, styles);
+export default ControlPanel;

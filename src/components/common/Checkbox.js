@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CSSModules from "react-css-modules";
 
-import styles from "../../styles/Checkbox.module.scss";
+import "../../styles/Checkbox.module.scss";
 
 function Checkbox({ name, label, checked, onChange, error }) {
   return (
@@ -35,4 +34,4 @@ Checkbox.propTypes = {
   error: PropTypes.string
 };
 
-export default CSSModules(Checkbox, styles);
+export default Checkbox;

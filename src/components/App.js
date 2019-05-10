@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import styles from "../styles/App.module.scss";
+import "../styles/App.module.scss";
 import initialSettings from "./initialSettings";
-import CSSModules from "react-css-modules";
+// import CSSModules from "react-css-modules";
 
 import ControlPanel from "./ControlPanel";
 import SVG from "./SVG";
@@ -305,4 +305,4 @@ function App() {
   );
 }
 
-export default CSSModules(App, styles);
+export default App;

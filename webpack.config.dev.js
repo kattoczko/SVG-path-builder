@@ -42,9 +42,12 @@ module.exports = {
             options: {
               sourceMap: true,
               modules: true,
-              localIdentName: "[local]---[hash:base64:5]",
-              importLoaders: 1
+              localIdentName: "[local]---[hash:base64:5]]",
+              importLoaders: 3
             }
+          },
+          {
+            loader: "postcss-loader"
           },
           {
             loader: "sass-loader",

@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import CSSModules from "react-css-modules";
 
-import styles from "../styles/Grid.module.scss";
+import "../styles/Grid.module.scss";
 
 function Grid({ width, height, grid: gridSettings }) {
   const { size, show, snap } = gridSettings;
@@ -44,4 +43,4 @@ Grid.propTypes = {
   height: PropTypes.number.isRequired
 };
 
-export default CSSModules(Grid, styles);
+export default Grid;

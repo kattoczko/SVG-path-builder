@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CSSModules from "react-css-modules";
 
-import styles from "../../styles/RadioButtons.module.scss";
+import "../../styles/RadioButtons.module.scss";
 
 function RadioButtons({ name, label, options, onChange }) {
   const optionsHtml = options.map(option => {
@@ -40,4 +39,4 @@ RadioButtons.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-export default CSSModules(RadioButtons, styles);
+export default RadioButtons;
