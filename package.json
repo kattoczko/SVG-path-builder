@@ -1,6 +1,10 @@
 {
   "name": "SVG-path-builder",
   "description": "SVG path builder recreation",
+  "browserslist": [
+    "> 1%",
+    "ie > 9"
+  ],
   "scripts": {
     "start": "run-p start:dev",
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000",
