@@ -1,0 +1,30 @@
+.point {
+  stroke: $gray-2;
+  stroke-width: 5;
+  fill: $white;
+  cursor: pointer;
+  transition: fill 0.2s;
+
+  &:hover {
+    fill: $green;
+  }
+}
+
+.anchor {
+  stroke: $gray-4;
+  stroke-width: 5;
+  fill: $white;
+  cursor: pointer;
+}
+
+.anchor-active {
+  stroke: $gray-3;
+}
+
+.point-active {
+  fill: $green;
+}
+
+.point-first {
+  stroke: $green;
+}

@@ -1,0 +1,18 @@
+.svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-5;
+  width: 100%;
+  padding: rem(20px);
+}
+
+.svg {
+  background-color: $white;
+}
+
+.path {
+  stroke: $gray-2;
+  stroke-width: 4px;
+  fill: none;
+}
