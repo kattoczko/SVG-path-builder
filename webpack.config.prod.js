@@ -27,7 +27,6 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
-      favicon: "src/favicon.ico",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -50,20 +49,42 @@ module.exports = {
         use: ["babel-loader", "eslint-loader"]
       },
       {
-        test: /(\.css)$/,
+        test: /(\.scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: "[local]---[hash:base64:5]]",
+              importLoaders: 3
+            }
+          },
+          {
+            loader: "postcss-loader"
+          },
+          {
+            loader: "sass-loader",
+            options: {
               sourceMap: true
             }
           },
           {
-            loader: "postcss-loader",
+            loader: "sass-resources-loader",
             options: {
-              plugins: () => [require("cssnano")],
-              sourceMap: true
+              sourceMap: true,
+              resources: [
+                path.resolve(
+                  __dirname,
+                  "src/styles/utils/variables.module.scss"
+                ),
+                path.resolve(
+                  __dirname,
+                  "src/styles/utils/functions.module.scss"
+                ),
+                path.resolve(__dirname, "src/styles/utils/mixins.module.scss")
+              ]
             }
           }
         ]
