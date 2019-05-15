@@ -1,6 +1,7 @@
 .control-panel {
   padding: rem(32px);
-  min-width: 300px;
+  min-width: rem(300px);
+  max-width: rem(350px);
   background-color: $black;
 }
 

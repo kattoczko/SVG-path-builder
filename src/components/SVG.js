@@ -15,7 +15,8 @@ function SVG({
   onPointClick,
   onMouseMove,
   addPoint,
-  onAnchorClick,
+  onQuadraticAnchorClick,
+  onCubicAnchorClick,
   path,
   svgRef
 }) {
@@ -39,9 +40,21 @@ function SVG({
           points={points}
           activePointIndex={activePointIndex}
           onPointClick={onPointClick}
-          onAnchorClick={onAnchorClick}
+          onQuadraticAnchorClick={onQuadraticAnchorClick}
+          onCubicAnchorClick={onCubicAnchorClick}
         />
       </svg>
+      <div styleName="instruction">
+        <p>
+          <b>Click</b> to select a point
+        </p>
+        <p>
+          <b>CTR + Click </b> to add a point
+        </p>
+        <p>
+          <b>Click + drag </b> to move a point
+        </p>
+      </div>
     </div>
   );
 }
@@ -56,7 +69,8 @@ SVG.propTypes = {
   onPointClick: PropTypes.func.isRequired,
   onMouseMove: PropTypes.func.isRequired,
   addPoint: PropTypes.func.isRequired,
-  onAnchorClick: PropTypes.func.isRequired,
+  onQuadraticAnchorClick: PropTypes.func.isRequired,
+  onCubicAnchorClick: PropTypes.func.isRequired,
   svgRef: PropTypes.object.isRequired
 };
 

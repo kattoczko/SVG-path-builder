@@ -6,6 +6,8 @@ import "../styles/ControlPanel.module.scss";
 import TextInput from "./common/TextInput";
 import Checkbox from "./common/Checkbox";
 import RadioButtons from "./common/RadioButtons";
+import RangeInput from "./common/RangeInput";
+import Button from "./common/Button";
 
 function ControlPanel({
   onWidthChange,
@@ -13,13 +15,18 @@ function ControlPanel({
   onClosePathChange,
   onGridChange,
   onPointTypeChange,
+  onYPositionChange,
+  onXPositionChange,
+  onResetButtonClick,
+  onSweepFlagChange,
   svgWidth,
   svgHeight,
   closePath,
   grid,
   path,
   activePointType,
-  activePointIndex
+  activePointIndex,
+  points
 }) {
   return (
     <div styleName="control-panel">
@@ -88,10 +95,20 @@ function ControlPanel({
         </div>
       </div>
 
+      <div styleName="controls-set">
+        <div styleName="item">
+          <Button
+            type="button"
+            text="Reset path"
+            onClick={onResetButtonClick}
+          />
+        </div>
+      </div>
+
       {/* Selected point options */}
       <h3 styleName="heading">Selected Point</h3>
-      <div styleName="controls-set">
-        {activePointIndex !== 0 && (
+      {activePointIndex !== 0 && (
+        <div styleName="controls-set">
           <div styleName="item">
             <RadioButtons
               name="pointType"
@@ -115,10 +132,46 @@ function ControlPanel({
                 { name: "A", value: "a", checked: activePointType === "a" }
               ]}
               onChange={onPointTypeChange}
-              // checkedOption={activePointType}
             />
           </div>
-        )}
+        </div>
+      )}
+      {points[activePointIndex].a && (
+        <div styleName="controls-set">
+          <Checkbox
+            name="sweepFlag"
+            label="Sweep Flag"
+            checked={points[activePointIndex].a.sf === 0 ? true : false}
+            onChange={onSweepFlagChange}
+            error=""
+          />
+        </div>
+      )}
+      <div styleName="controls-set">
+        <div styleName="item">
+          <RangeInput
+            label="Point X position"
+            name="positionX"
+            min={0}
+            max={svgWidth}
+            value={points[activePointIndex].x}
+            step={grid.snap ? grid.size : 1}
+            onChange={onXPositionChange}
+          />
+        </div>
+      </div>
+      <div styleName="controls-set">
+        <div styleName="item">
+          <RangeInput
+            label="Point Y position"
+            name="positionY"
+            min={0}
+            max={svgHeight}
+            value={points[activePointIndex].y}
+            step={grid.snap ? grid.size : 1}
+            onChange={onYPositionChange}
+          />
+        </div>
       </div>
 
       <div styleName="result">
@@ -134,13 +187,18 @@ ControlPanel.propTypes = {
   onClosePathChange: PropTypes.func.isRequired,
   onGridChange: PropTypes.func.isRequired,
   onPointTypeChange: PropTypes.func.isRequired,
+  onYPositionChange: PropTypes.func.isRequired,
+  onXPositionChange: PropTypes.func.isRequired,
+  onResetButtonClick: PropTypes.func.isRequired,
+  onSweepFlagChange: PropTypes.func.isRequired,
   svgWidth: PropTypes.number.isRequired,
   svgHeight: PropTypes.number.isRequired,
   grid: PropTypes.object.isRequired,
   closePath: PropTypes.bool.isRequired,
   path: PropTypes.string.isRequired,
   activePointType: PropTypes.string.isRequired,
-  activePointIndex: PropTypes.number.isRequired
+  activePointIndex: PropTypes.number.isRequired,
+  points: PropTypes.array.isRequired
 };
 
 export default ControlPanel;

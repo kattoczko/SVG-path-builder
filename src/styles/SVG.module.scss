@@ -1,18 +1,40 @@
 .svg-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   background-color: $gray-5;
   width: 100%;
-  padding: rem(20px);
+  position: relative;
 }
 
 .svg {
   background-color: $white;
+  flex-shrink: 0;
+  margin: rem(20px);
 }
 
 .path {
   stroke: $gray-2;
   stroke-width: 4px;
   fill: none;
+}
+
+.instruction {
+  align-self: flex-end;
+  width: 100%;
+  background-color: $white;
+  border-top: 3px solid lighten($gray-4, 10);
+  padding: rem(20px);
+  color: $gray-1;
+  text-transform: uppercase;
+  font-size: rem(11px);
+
+  p {
+    padding-bottom: rem(8px);
+  }
+
+  b {
+    border-bottom: 2px solid $green;
+  }
 }

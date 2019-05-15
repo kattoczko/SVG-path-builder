@@ -5,7 +5,7 @@ import classNames from "classnames";
 import "../styles/Grid.module.scss";
 
 function Grid({ width, height, grid: gridSettings }) {
-  const { size, show, snap } = gridSettings;
+  const { size, show } = gridSettings;
   let grid = [];
 
   for (let i = 1; i < width / size; i++) {

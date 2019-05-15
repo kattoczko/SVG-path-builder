@@ -19,7 +19,7 @@ function App() {
   );
   const [activeCtrlKey, setActiveCtrlKey] = useState(false);
   const [pointIsDragged, setPointIsDragged] = useState(false);
-  const [anchorIsDragged, setAnchorIsDragged] = useState(false);
+  const [draggedAnchor, setDraggedAnchor] = useState({});
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown, false);
@@ -50,9 +50,14 @@ function App() {
     }
   }
 
-  function handleAnchorClick(i) {
+  function handleQuadraticAnchorClick(i) {
     setActivePointIndex(i);
-    setAnchorIsDragged(true);
+    setDraggedAnchor({ type: "q" });
+  }
+
+  function handleCubicAnchorClick(i, position) {
+    setActivePointIndex(i);
+    setDraggedAnchor({ type: "c", position });
   }
 
   function getCoordinates(e) {
@@ -72,8 +77,9 @@ function App() {
 
   function handleMouseMove(e) {
     const event = e;
+    const { x, y } = getCoordinates(event);
+
     if (pointIsDragged) {
-      const { x, y } = getCoordinates(event);
       const updatedPoints = points.map((point, i) => {
         if (i === activePointIndex) {
           return { ...point, x, y };
@@ -81,10 +87,8 @@ function App() {
           return point;
         }
       });
-
       setPoints(updatedPoints);
-    } else if (anchorIsDragged) {
-      const { x, y } = getCoordinates(event);
+    } else if (draggedAnchor.type === "q") {
       const updatedPoints = points.map((point, i) => {
         if (i === activePointIndex) {
           return { ...point, q: { x, y } };
@@ -92,14 +96,23 @@ function App() {
           return point;
         }
       });
-
+      setPoints(updatedPoints);
+    } else if (draggedAnchor.type === "c") {
+      const updatedPoints = points.map((point, i) => {
+        if (i === activePointIndex) {
+          point.c[draggedAnchor.position] = { x, y };
+          return { ...point };
+        } else {
+          return point;
+        }
+      });
       setPoints(updatedPoints);
     }
   }
 
   function cancelDragging() {
     setPointIsDragged(false);
-    setAnchorIsDragged(false);
+    setDraggedAnchor({});
   }
 
   function handleWidthChange(e) {
@@ -272,6 +285,60 @@ function App() {
     }
   }
 
+  function handlePositionChange(value, axis, max) {
+    if (value !== "") {
+      value = Number(value);
+    } else {
+      return;
+    }
+    if (Number.isNaN(value)) {
+      return;
+    }
+    value = value > max ? max : value;
+
+    const updatedPoints = points.map((point, i) => {
+      if (i === activePointIndex) {
+        return { ...point, [axis]: value };
+      } else {
+        return point;
+      }
+    });
+    setPoints(updatedPoints);
+  }
+
+  function handleYPositionChange(e) {
+    const value = e.target.value.trim();
+
+    handlePositionChange(value, "y", height);
+  }
+
+  function handleXPositionChange(e) {
+    const value = e.target.value.trim();
+
+    handlePositionChange(value, "x", width);
+  }
+
+  function handleResetButtonClick() {
+    setActivePointIndex(0);
+    setPoints([{ x: width / 2, y: height / 2 }]);
+  }
+
+  function handleSweepFlagChange(e) {
+    const flipSweepFlag = e.target.checked;
+    const changedPoint = { ...points[activePointIndex] };
+    changedPoint.a.sf = flipSweepFlag ? 0 : 1;
+    console.log(changedPoint);
+
+    const newPoints = points.map((point, i) => {
+      if (i === activePointIndex) {
+        return changedPoint;
+      } else {
+        return point;
+      }
+    });
+    setPoints(newPoints);
+  }
+
   return (
     <div styleName="app" onMouseUp={cancelDragging}>
       <SVG
@@ -285,7 +352,8 @@ function App() {
         onPointClick={handleOnPointClick}
         onMouseMove={handleMouseMove}
         addPoint={handleAddPoint}
-        onAnchorClick={handleAnchorClick}
+        onQuadraticAnchorClick={handleQuadraticAnchorClick}
+        onCubicAnchorClick={handleCubicAnchorClick}
       />
       <ControlPanel
         onWidthChange={handleWidthChange}
@@ -293,6 +361,10 @@ function App() {
         onClosePathChange={handleClosePathChange}
         onGridChange={handleGridChange}
         onPointTypeChange={handlePointTypeChange}
+        onYPositionChange={handleYPositionChange}
+        onXPositionChange={handleXPositionChange}
+        onResetButtonClick={handleResetButtonClick}
+        onSweepFlagChange={handleSweepFlagChange}
         svgWidth={width}
         svgHeight={height}
         closePath={closePath}
@@ -300,6 +372,7 @@ function App() {
         path={generatePath()}
         activePointType={getActivePointType()}
         activePointIndex={activePointIndex}
+        points={points}
       />
     </div>
   );
