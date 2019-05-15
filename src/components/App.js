@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import "../styles/App.module.scss";
-import initialSettings from "./initialSettings";
-// import CSSModules from "react-css-modules";
+import initialSettings from "./utils/initialSettings";
+import { positiveNumber } from "./utils/helpers";
 
 import ControlPanel from "./ControlPanel";
 import SVG from "./SVG";
@@ -19,7 +19,10 @@ function App() {
   );
   const [activeCtrlKey, setActiveCtrlKey] = useState(false);
   const [pointIsDragged, setPointIsDragged] = useState(false);
-  const [draggedAnchor, setDraggedAnchor] = useState({});
+  const [draggedAnchor, setDraggedAnchor] = useState({
+    type: undefined,
+    anchorIndex: undefined
+  });
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown, false);
@@ -44,24 +47,23 @@ function App() {
   function handleAddPoint(e) {
     if (activeCtrlKey) {
       const event = e;
-      const coordinates = getCoordinates(event);
-      points.push(coordinates);
+      const newPointCoordinates = getCoordinates(event);
+      setPoints([...points, newPointCoordinates]);
       setActivePointIndex(points.length - 1);
     }
   }
 
-  function handleQuadraticAnchorClick(i) {
-    setActivePointIndex(i);
-    setDraggedAnchor({ type: "q" });
+  function handleQuadraticAnchorClick(pointIndex) {
+    setActivePointIndex(pointIndex);
+    setDraggedAnchor({ ...draggedAnchor, type: "q" });
   }
 
-  function handleCubicAnchorClick(i, position) {
-    setActivePointIndex(i);
-    setDraggedAnchor({ type: "c", position });
+  function handleCubicAnchorClick(pointIndex, anchorIndex) {
+    setActivePointIndex(pointIndex);
+    setDraggedAnchor({ type: "c", anchorIndex });
   }
 
-  function getCoordinates(e) {
-    const event = e;
+  function getCoordinates(event) {
     const clientRect = svgRef.current.getBoundingClientRect();
 
     let x = Math.round(event.pageX - window.scrollX - clientRect.left);
@@ -80,27 +82,19 @@ function App() {
     const { x, y } = getCoordinates(event);
 
     if (pointIsDragged) {
-      const updatedPoints = points.map((point, i) => {
-        if (i === activePointIndex) {
-          return { ...point, x, y };
-        } else {
-          return point;
-        }
-      });
+      const updatedPoints = points.map((point, i) =>
+        i === activePointIndex ? { ...point, x, y } : point
+      );
       setPoints(updatedPoints);
     } else if (draggedAnchor.type === "q") {
       const updatedPoints = points.map((point, i) => {
-        if (i === activePointIndex) {
-          return { ...point, q: { x, y } };
-        } else {
-          return point;
-        }
+        return i === activePointIndex ? { ...point, q: { x, y } } : point;
       });
       setPoints(updatedPoints);
     } else if (draggedAnchor.type === "c") {
       const updatedPoints = points.map((point, i) => {
         if (i === activePointIndex) {
-          point.c[draggedAnchor.position] = { x, y };
+          point.c[draggedAnchor.anchorIndex] = { x, y };
           return { ...point };
         } else {
           return point;
@@ -112,14 +106,16 @@ function App() {
 
   function cancelDragging() {
     setPointIsDragged(false);
-    setDraggedAnchor({});
+    setDraggedAnchor({ type: undefined, anchorIndex: undefined });
   }
 
   function handleWidthChange(e) {
     let width = positiveNumber(e.target.value);
     const min = 1;
 
-    if (width < min) width = min;
+    if (width < min) {
+      width = min;
+    }
 
     setWidth(width);
   }
@@ -147,6 +143,9 @@ function App() {
       case "show":
         setGrid(prevState => ({ ...prevState, [name]: target.checked }));
         break;
+      default:
+        console.log(`Grid property: ${name} doesn't match any case`);
+        break;
     }
   }
 
@@ -170,9 +169,8 @@ function App() {
     setPointIsDragged(true);
   }
 
-  // finish point types
   function handlePointTypeChange(e) {
-    const value = e.target.value;
+    const pointType = e.target.value;
     const activePoint = points[activePointIndex];
     let coordinates;
 
@@ -188,7 +186,7 @@ function App() {
       );
     }
 
-    switch (value) {
+    switch (pointType) {
       case "l":
         coordinates = {
           x: activePoint.x,
@@ -231,16 +229,11 @@ function App() {
           a: { rx: 1, ry: 1, rot: 0, laf: 1, sf: 1 }
         };
         handleSetPoints();
-
+        break;
+      default:
+        console.error(`Point type: ${pointType} doesn't match`);
         break;
     }
-  }
-
-  function positiveNumber(n) {
-    n = parseInt(n);
-    if (Number.isNaN(n) || n < 0) n = 0;
-
-    return n;
   }
 
   function generatePath() {
@@ -286,7 +279,7 @@ function App() {
   }
 
   function handlePositionChange(value, axis, max) {
-    if (value !== "") {
+    if (typeof value == "string" && value.trim() !== "") {
       value = Number(value);
     } else {
       return;
@@ -307,14 +300,12 @@ function App() {
   }
 
   function handleYPositionChange(e) {
-    const value = e.target.value.trim();
-
+    const value = e.target.value;
     handlePositionChange(value, "y", height);
   }
 
   function handleXPositionChange(e) {
-    const value = e.target.value.trim();
-
+    const value = e.target.value;
     handlePositionChange(value, "x", width);
   }
 
@@ -327,7 +318,6 @@ function App() {
     const flipSweepFlag = e.target.checked;
     const changedPoint = { ...points[activePointIndex] };
     changedPoint.a.sf = flipSweepFlag ? 0 : 1;
-    console.log(changedPoint);
 
     const newPoints = points.map((point, i) => {
       if (i === activePointIndex) {
