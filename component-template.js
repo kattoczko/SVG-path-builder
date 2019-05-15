@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CSSModules from "react-css-modules";
 
-import styles from "../styles/Name.module.scss";
+import "../styles/Name.module.scss";
 
 function Name() {
   return <div />;
@@ -10,6 +9,4 @@ function Name() {
 
 Name.propTypes = {};
 
-export default CSSModules(Name, styles);
-
-
+export default Name;
