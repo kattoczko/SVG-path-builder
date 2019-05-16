@@ -17,6 +17,7 @@ function TextInput({ name, label, onChange, placeholder, value }) {
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onClick={e => e.target.select()}
         />
       </div>
     </div>

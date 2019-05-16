@@ -24,6 +24,7 @@ function RangeInput({ label, name, min, max, value, step, onChange }) {
           type="text"
           value={value}
           onChange={onChange}
+          onClick={e => e.target.select()}
           styleName="range-input"
         />
       </div>
