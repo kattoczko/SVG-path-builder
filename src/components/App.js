@@ -116,7 +116,6 @@ function App() {
     if (width < min) {
       width = min;
     }
-
     setWidth(width);
   }
 
