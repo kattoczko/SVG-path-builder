@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 
 import "../../styles/TextInput.modules.scss";
 
-function TextInput({ name, label, onChange, placeholder, value, error }) {
-  if (error && error.length > 0) {
-    // add some error class
-  }
-
+function TextInput({ name, label, onChange, placeholder, value }) {
   return (
     <div>
       <label styleName="label" htmlFor={name}>
@@ -22,7 +18,6 @@ function TextInput({ name, label, onChange, placeholder, value, error }) {
           value={value}
           onChange={onChange}
         />
-        {error && <div styleName="">{error}</div>}
       </div>
     </div>
   );
@@ -33,8 +28,7 @@ TextInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string,
-  error: PropTypes.string
+  value: PropTypes.string
 };
 
 export default TextInput;

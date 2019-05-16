@@ -40,7 +40,6 @@ function ControlPanel({
             onChange={onWidthChange}
             placeholder="0"
             value={String(svgWidth)}
-            error=""
           />
         </div>
         <div styleName="item">
@@ -50,7 +49,6 @@ function ControlPanel({
             onChange={onHeightChange}
             placeholder="0"
             value={String(svgHeight)} //value must be text
-            error=""
           />
         </div>
         <div styleName="item">
@@ -59,7 +57,6 @@ function ControlPanel({
             label="Close path"
             checked={closePath}
             onChange={onClosePathChange}
-            error=""
           />
         </div>
       </div>
@@ -72,7 +69,6 @@ function ControlPanel({
             onChange={onGridChange}
             placeholder="0"
             value={String(grid.size)}
-            error=""
           />
         </div>
         <div styleName="item">
@@ -81,7 +77,6 @@ function ControlPanel({
             label="Snap grid"
             checked={grid.snap}
             onChange={onGridChange}
-            error=""
           />
         </div>
         <div styleName="item">
@@ -90,7 +85,6 @@ function ControlPanel({
             label="Show grid"
             checked={grid.show}
             onChange={onGridChange}
-            error=""
           />
         </div>
       </div>
@@ -143,7 +137,6 @@ function ControlPanel({
             label="Sweep Flag"
             checked={points[activePointIndex].a.sf === 0 ? true : false}
             onChange={onSweepFlagChange}
-            error=""
           />
         </div>
       )}

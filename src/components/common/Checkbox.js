@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import "../../styles/Checkbox.module.scss";
 
-function Checkbox({ name, label, checked, onChange, error }) {
+function Checkbox({ name, label, checked, onChange }) {
   return (
     <div>
       <label styleName="label" htmlFor={name}>
@@ -20,7 +20,6 @@ function Checkbox({ name, label, checked, onChange, error }) {
           />
           <span styleName="slider" />
         </label>
-        {error && <div styleName="">{error}</div>}
       </div>
     </div>
   );
@@ -30,8 +29,7 @@ Checkbox.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string
+  onChange: PropTypes.func.isRequired
 };
 
 export default Checkbox;
