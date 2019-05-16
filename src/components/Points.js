@@ -5,13 +5,13 @@ import classNames from "classnames";
 import "../styles/Points.module.scss";
 
 function Points({
-  points,
+  points: pointsList,
   activePointIndex,
   onPointClick,
   onQuadraticAnchorClick,
   onCubicAnchorClick
 }) {
-  const pts = points.map((point, i) => {
+  const points = pointsList.map((point, i) => {
     const stylingPoint = classNames("point", {
       "point-first": i === 0,
       "point-active": i === activePointIndex
@@ -43,8 +43,8 @@ function Points({
             <line
               x1={point.q.x}
               y1={point.q.y}
-              x2={points[i - 1].x}
-              y2={points[i - 1].y}
+              x2={pointsList[i - 1].x}
+              y2={pointsList[i - 1].y}
               styleName={stylingLine}
             />
             <circle
@@ -68,8 +68,8 @@ function Points({
             <line
               x1={point.c[0].x}
               y1={point.c[0].y}
-              x2={points[i - 1].x}
-              y2={points[i - 1].y}
+              x2={pointsList[i - 1].x}
+              y2={pointsList[i - 1].y}
               styleName={stylingLine}
             />
             <circle
@@ -92,7 +92,7 @@ function Points({
     );
   });
 
-  return <g>{pts}</g>;
+  return <g>{points}</g>;
 }
 
 Points.propTypes = {
