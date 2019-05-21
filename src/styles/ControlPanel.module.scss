@@ -1,0 +1,31 @@
+.control-panel {
+  padding: rem(32px);
+  min-width: rem(300px);
+  max-width: rem(350px);
+  background-color: $black;
+}
+
+.controls-set {
+  display: flex;
+  margin-top: rem(24px);
+}
+
+.item {
+  flex-grow: 1;
+}
+
+.heading {
+  font-size: rem(14px);
+  font-weight: 700;
+  color: $white;
+  margin: rem(48px) 0 rem(24px);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.result {
+  font-size: rem(12px);
+  margin-top: rem(40px);
+}
