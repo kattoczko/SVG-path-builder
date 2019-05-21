@@ -1,9 +1,0 @@
-@import "./common/FormBase.module.scss";
-
-.label {
-  @extend %label;
-}
-
-.input {
-  @extend %input-field;
-}
