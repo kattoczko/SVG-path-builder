@@ -5,5 +5,3 @@ import "./styles/global/base.scss";
 import App from "./components/App";
 
 render(<App />, document.getElementById("app"));
-
-//This is a new test comment
